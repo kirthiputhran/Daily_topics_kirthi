@@ -1,0 +1,414 @@
+SELECT column1, column2, ...								# SELECT syntax
+FROM table_name;
+
+SELECT * FROM table_name;
+
+#####################
+SELECT DISTINCT column1, column2, ...					   # SELECT DISTINCT syntax
+FROM table_name;
+
+####################
+SELECT column1, column2, ...							  # WHERE Syntax
+FROM table_name
+WHERE condition;
+
+##################
+SELECT column1, column2, ...							   # AND syntax
+FROM table_name
+WHERE condition1 AND condition2 AND condition3 ...;
+
+SELECT column1, column2, ...							   # OR syntax
+FROM table_name
+WHERE condition1 OR condition2 OR condition3 ...;
+
+SELECT column1, column2, ...							  # NOT  syntax
+FROM table_name
+WHERE NOT condition;
+
+########################
+
+SELECT column1, column2, ...							 # ORDER BY syntax
+FROM table_name
+ORDER BY column1, column2, ... ASC|DESC;
+
+#######################
+INSERT INTO table_name (column1, column2, column3, ...)		# Insert into
+VALUES (value1, value2, value3, ...);
+
+INSERT INTO table_name
+VALUES (value1, value2, value3, ...);
+
+####################
+SELECT column_names										# IS NULL Syntax
+FROM table_name
+WHERE column_name IS NULL;
+
+SELECT column_names										# IS NOT NULL Syntax									
+FROM table_name
+WHERE column_name IS NOT NULL;
+
+###################
+UPDATE table_name										# UPDATE syntax
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+
+###################
+DELETE FROM table_name WHERE condition;					# DELETE Syntax
+
+#################
+SELECT TOP number|percent column_name(s)				# SELECT TOP
+FROM table_name
+WHERE condition;
+
+SELECT column_name(s)									# LIMIT
+FROM table_name
+WHERE condition
+LIMIT number;
+
+###############
+SELECT MIN(column_name)								# MIN 
+FROM table_name
+WHERE condition;
+
+SELECT MAX(column_name)								# MAX 
+FROM table_name
+WHERE condition;
+
+###############
+SELECT COUNT(column_name)							# COUNT
+FROM table_name
+WHERE condition;
+
+SELECT AVG(column_name)								# AVG
+FROM table_name
+WHERE condition;
+
+SELECT SUM(column_name)								# SUM
+FROM table_name
+WHERE condition;
+
+##############
+SELECT column1, column2, ...						# LIKE OPERATOR
+FROM table_name
+WHERE columnN LIKE pattern;
+
+SELECT column1, column2, ...						# NOT LIKE OPERATOR
+FROM table_name
+WHERE columnN NOT LIKE pattern;
+
+###################
+%												# WILDCARD
+_
+[CHARLIST]
+[!CHARLIST]
+
+#######################
+
+SELECT column_name(s)										# IN operator						
+FROM table_name
+WHERE column_name IN (value1, value2, ...);
+
+SELECT column_name(s)										# NOT IN operator						
+FROM table_name
+WHERE column_name IN (value1, value2, ...);
+
+######################
+
+SELECT column_name(s)										# BETWEEN operator
+FROM table_name
+WHERE column_name BETWEEN value1 AND value2;
+
+SELECT column_name(s)										# NOT BETWEEN operator
+FROM table_name
+WHERE column_name BETWEEN value1 AND value2;
+
+#################
+
+SELECT column_name AS alias_name							# alias col syntax
+FROM table_name;
+
+################
+SELECT Table1.column1 ,Table1.column2 ,Table2.column1,...		# INNER JOIN
+FROM Table1
+INNER JOIN Table2
+ON table1.Matchingcolname=table2.Matchingcolname;
+
+SELECT Table1.column1 ,Table1.column2 ,Table2.column1,...		# LEFT JOIN
+FROM Table1
+LEFT JOIN Table2
+ON table1.Matchingcolname=table2.Matchingcolname;
+
+SELECT Table1.column1 ,Table1.column2 ,Table2.column1,...		# RIGHT JOIN
+FROM Table1
+RIGHT JOIN Table2
+ON table1.Matchingcolname=table2.Matchingcolname;
+
+SELECT Table1.column1 ,Table1.column2 ,Table2.column1,...		# FULL OUTER JOIN
+FROM Table1
+FULL OUTER JOIN Table2
+ON table1.Matchingcolname=table2.Matchingcolname;
+
+################	
+SELECT column_name(s)											# SELF JOIN (T1 and T2 are different table aliases for the same table.)
+FROM table1 T1, table1 T2
+WHERE condition;
+
+###################
+
+SELECT column_name(s) FROM Table1  								# UNION									#######################
+UNION			
+SELECT column_name(s) FROM table2;
+
+
+SELECT column_name(s) FROM Table1  								# UNION ALL
+UNION ALL			
+SELECT column_name(s) FROM table2;
+
+##################
+SELECT column_name(s)											#GROUP BY  (USED WHEN AGGREATE FUNCTIONS ARE USED)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+ORDER BY column_name(s);
+
+#################
+
+SELECT column_name(s)											# HAVNG  
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+HAVING condition
+ORDER BY column_name(s);
+
+################
+SELECT column_name(s)											# ANY
+FROM table_name
+WHERE column_name operator ANY
+  (SELECT column_name
+  FROM table_name
+  WHERE condition);
+
+SELECT ALL column_name(s)										# ALL
+FROM table_name
+WHERE condition;
+
+SELECT column_name(s)
+FROM table_name
+WHERE column_name operator ALL
+  (SELECT column_name
+  FROM table_name
+  WHERE condition);
+####################
+
+SELECT column1, column2, column3, ...							# SELECT INTO
+INTO newtable [IN externaldb]
+FROM oldtable
+WHERE condition;
+
+###################
+
+INSERT INTO Table2 												# INSERT INTO SELECT
+SELECT * FROM Table1 											#Copy all columns from one table to another table
+WHERE condition;
+
+
+INSERT INTO table2 (column1, column2, column3, ...)				#Copy only some columns from one table into another table
+SELECT column1, column2, column3, ...
+FROM table1
+WHERE condition;
+
+####################
+CASE															# CASE SYNTAX
+    WHEN condition1 THEN result1
+    WHEN condition2 THEN result2
+    WHEN conditionN THEN resultN
+    ELSE result
+END;
+
+##################
+SELECT ProductName, UnitPrice * (UnitsInStock + UnitsOnOrder)
+FROM Products;
+
+SELECT ProductName, UnitPrice * (UnitsInStock + IFNULL(UnitsOnOrder, 0))		#IF NULL
+FROM Products;
+
+SELECT ProductName, UnitPrice * (UnitsInStock + ISNULL(UnitsOnOrder, 0))		#IS NULL
+FROM Products;
+
+SELECT ProductName, UnitPrice * (UnitsInStock + COALESCE(UnitsOnOrder, 0))		#COALESCE
+FROM Products;
+
+#################
+
+CREATE PROCEDURE procedure_name										# STORED PROCEDURE SYNTAX
+AS
+sql_statement
+GO;
+
+EXEC procedure_name;												# EXECUTE STORED PROCEDURE 
+
+###############
+
+CREATE DATABASE databasename;										#CREATE DATABASE
+
+##############
+
+DROP DATABASE databasename;											#DROP DATABASE 
+
+#############
+
+BACKUP DATABASE databasename										#The BACKUP DATABASE statement is used in SQL Server to create a full back up of an existing SQL database
+TO DISK = 'filepath';
+
+##############
+BACKUP DATABASE databasename										#A differential back up only backs up the parts of the database that have changed since the last full 
+TO DISK = 'filepath'												 database backup
+WITH DIFFERENTIAL;
+
+####################
+CREATE TABLE table_name (											#CREATE TABLE
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+   ....
+);
+
+################
+DROP TABLE table_name;												#DROP TABLE(removes table along with data)
+
+##############
+
+TRUNCATE TABLE table_name											#TRUNCATE TABLE(Removes all the rows but doesn't delete table)
+
+################
+ALTER TABLE table_name												#ALTER TABLE ADD COLUMN
+ADD column_name datatype;
+
+###############
+ALTER TABLE table_name												#ALTER TABLE DROP COLUMN
+DROP COLUMN column_name;
+
+################
+
+CREATE TABLE table_name (											#CREATE CONSTRAINTS
+    column1 datatype constraint,
+    column2 datatype constraint,
+    column3 datatype constraint,
+    ....
+);
+
+####################
+
+CREATE TABLE Persons (												# NOT NULL ON CREATE TABLE(Columns will not accept null values)
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255) NOT NULL,
+    Age int
+);
+
+ALTER TABLE Persons													#NOT NULL ON ALTER TABLE
+MODIFY Age int NOT NULL;
+
+##################
+
+CREATE TABLE Persons (												# UNIQUE (all values in a column are different)
+    ID int NOT NULL UNIQUE,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int
+);
+
+ALTER TABLE Persons
+ADD UNIQUE (ID);
+
+##################
+
+CREATE TABLE Persons (												# PRIMARY KEY(uniquely identifies each record in a table)
+    ID int NOT NULL PRIMARY KEY,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int
+);
+
+ALTER TABLE Persons
+ADD PRIMARY KEY (ID);
+
+##############
+CREATE TABLE Orders (												#FOREIGN KEY
+    OrderID int NOT NULL PRIMARY KEY,
+    OrderNumber int NOT NULL,
+    PersonID int FOREIGN KEY REFERENCES Persons(PersonID)
+);
+
+ALTER TABLE Orders
+ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+
+#################
+CREATE TABLE Persons (												#CHECK(used to limit the value range that can be placed in a column)
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int CHECK (Age>=18)
+);
+
+ALTER TABLE Persons
+ADD CHECK (Age>=18);
+
+##################
+CREATE TABLE Persons (												#DEFAULT (set a default value for a column)
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    City varchar(255) DEFAULT 'Sandnes'
+);
+
+#################
+CREATE INDEX index_name												#CREATE INDEX
+ON table_name (column1, column2, ...);
+
+CREATE UNIQUE INDEX index_name										#CREATE UNIQUE INDEX
+ON table_name (column1, column2, ...);
+
+ALTER TABLE table_name												#DROP INDEX
+DROP INDEX index_name;								
+
+##################
+
+CREATE TABLE Persons (												#AUTO_INCREMENT(unique number to be generated automatically when a new record is inserted into a table)
+    Personid int NOT NULL AUTO_INCREMENT,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (Personid)
+);
+
+ALTER TABLE Persons AUTO_INCREMENT=100;								#AUTO_INCREMENT sequence start with another value
+
+###################
+
+SELECT * FROM Orders WHERE OrderDate='2008-11-11'					# DATES
+
+##################
+CREATE VIEW view_name AS 											# VIEW
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+
+##################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
