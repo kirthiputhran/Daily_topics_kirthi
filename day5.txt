@@ -1,0 +1,246 @@
+--Query 1 (overall)
+SELECT
+	winner,
+	count(season)
+FROM
+	matches
+GROUP BY
+	winner
+ORDER BY
+	count(season)
+	DESC
+LIMIT 4;
+
+--query 1
+SELECT
+	winner,
+	season
+FROM (
+	SELECT
+		winner,
+		season,
+		COUNT(season),
+		ROW_NUMBER() OVER (PARTITION BY season ORDER BY count(season)
+			DESC) AS a
+	FROM
+		matches
+	GROUP BY
+		season,
+		winner ORDER BY
+			season ASC,
+			COUNT(season)
+			DESC) matches
+WHERE
+	a <= 4;
+
+--2nd query
+SELECT
+	toss_winner,
+	season
+FROM ( SELECT DISTINCT
+		(toss_winner),
+		count(toss_winner),
+		season,
+		ROW_NUMBER() OVER (PARTITION BY season ORDER BY count(toss_winner)
+			DESC) AS a
+	FROM
+		matches
+	GROUP BY
+		toss_winner,
+		season ORDER BY
+			season ASC,
+			toss_winner ASC) matches
+WHERE
+	a <= 1
+
+--3rd query
+SELECT
+	player_of_match,
+	season
+FROM ( SELECT DISTINCT
+		(player_of_match),
+		count(player_of_match),
+		season,
+		ROW_NUMBER() OVER (PARTITION BY season ORDER BY count(player_of_match)
+			DESC) AS a
+	FROM
+		matches
+	GROUP BY
+		player_of_match,
+		season ORDER BY
+			season ASC,
+			player_of_match ASC) matches
+WHERE
+	a <= 1
+
+--4 query
+SELECT
+	winner,
+	season
+FROM (
+	SELECT
+		winner,
+		season,
+		COUNT(season),
+		ROW_NUMBER() OVER (PARTITION BY season ORDER BY count(season)
+			DESC) AS a
+	FROM
+		matches
+	GROUP BY
+		season,
+		winner ORDER BY
+			season ASC,
+			COUNT(season)
+			DESC) matches
+WHERE
+	a <= 1;
+
+--5 query
+SELECT
+	venue,
+	season
+FROM ( SELECT DISTINCT
+		(winner),
+		count(season),
+		season,
+		venue,
+		ROW_NUMBER() OVER (PARTITION BY season ORDER BY count(season)
+			DESC) AS a
+	FROM
+		matches
+	GROUP BY
+		winner,
+		season,
+		venue ORDER BY
+			season ASC,
+			winner ASC) matches
+WHERE
+	a <= 1
+
+--6 query
+SELECT
+	toss_winner,
+	season
+FROM ( SELECT DISTINCT
+		(toss_winner),
+		count(season),
+		season,
+		toss_decision,
+		ROW_NUMBER() OVER (PARTITION BY season ORDER BY count(season)
+			DESC) AS a
+	FROM
+		matches
+	WHERE
+		toss_decision = 'bat'
+	GROUP BY
+		toss_winner,
+		season,
+		toss_decision ORDER BY
+			season ASC,
+			toss_winner ASC) matches
+WHERE
+	a <= 1
+
+--7 query
+SELECT
+	venue,
+	season
+FROM ( SELECT DISTINCT
+		(venue),
+		count(season),
+		season,
+		ROW_NUMBER() OVER (PARTITION BY season ORDER BY count(season)
+			DESC) AS a
+	FROM
+		matches
+	GROUP BY
+		venue,
+		season ORDER BY
+			season ASC,
+			count(season) ASC,
+			venue ASC) matches
+WHERE
+	a <= 1
+
+-- 8 query
+SELECT
+	winner,
+	season
+FROM ( SELECT DISTINCT
+		(winner),
+		count(season),
+		win_by_runs,
+		season,
+		ROW_NUMBER() OVER (PARTITION BY season ORDER BY win_by_runs DESC) AS a
+	FROM
+		matches
+	GROUP BY
+		win_by_runs,
+		winner,
+		season ORDER BY
+			season ASC,
+			winner ASC) matches
+WHERE
+	a <= 1
+
+-- part 2 1 query
+SELECT
+	winner,
+	season
+FROM ( SELECT DISTINCT
+		(winner),
+		count(season),
+		win_by_wickets,
+		season,
+		ROW_NUMBER() OVER (PARTITION BY season ORDER BY win_by_wickets DESC) AS a
+	FROM
+		matches
+	GROUP BY
+		win_by_wickets,
+		winner,
+		season ORDER BY
+			season ASC,
+			winner ASC) matches
+WHERE
+	a <= 1
+
+-- part 2 2 query
+SELECT DISTINCT
+	(winner),
+	season,
+	COUNT(season),
+	toss_winner
+FROM
+	matches
+WHERE
+	winner = toss_winner
+GROUP BY
+	season,
+	winner,
+	toss_winner
+ORDER BY
+	season ASC,
+	count(season)
+	DESC;
+
+
+-- part 2 query 4
+SELECT
+	deliveries.fielder,
+	deliveries.dismissal_kind,
+	matches.season,
+	count(deliveries.fielder)
+FROM
+	matches
+	INNER JOIN deliveries ON matches.id = deliveries.match_id
+WHERE
+	dismissal_kind = 'caught'
+GROUP BY
+	matches.season,
+	deliveries.fielder,
+	deliveries.dismissal_kind
+ORDER BY
+	season,
+	COUNt(dismissal_kind)
+	DESC;
+
